@@ -18,10 +18,26 @@
     </ContentPage.Resources>
 
     <StackLayout>
-        <SearchBar x:Name="txt_search"
-                   Margin="-15, 0, 0, 0"
-                   Placeholder="Busca de Produtos"
-                   TextChanged="txt_search_TextChanged"/>
+        <Grid ColumnDefinitions="3*, 1*" Padding="5">
+
+            <SearchBar x:Name="txt_search"
+                   Placeholder="Pesquisa por Produto"
+                   TextChanged="txt_search_TextChanged"
+                   Grid.Column="0"
+                       Margin="0,13,0,0" />
+
+            <StackLayout Grid.Column="1" Padding="5">
+
+                <Label Text="Categorias"
+                   FontSize="15"
+                   HorizontalTextAlignment="Center"/>
+
+                <Picker x:Name="picker_categoria"
+                    Title="Selecionar"
+                    SelectedIndexChanged="OnCategoriaSelecionada"/>
+            </StackLayout>
+
+        </Grid>
 
         <Grid Margin="5" VerticalOptions="FillAndExpand"
               BackgroundColor="#CDC9C9">

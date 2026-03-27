@@ -1,4 +1,4 @@
-using MauiAppMinhasCompras.Models;
+ï»¿using MauiAppMinhasCompras.Models;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
@@ -8,20 +8,48 @@ public partial class ListaProduto : ContentPage
 {
     ObservableCollection<Produto> lista = new ObservableCollection<Produto>();
 
+    string categoriaSelecionada = "Todas";
+
+    private async Task CarregarLista()
+    {
+        lista.Clear();
+
+        List<Produto> tmp = await App.Db.GetAll();
+
+        tmp.ForEach(i => lista.Add(i));
+    }
+
     public ListaProduto()
     {
         InitializeComponent();
 
         lst_produtos.ItemsSource = lista;
+
+        picker_categoria.ItemsSource = new List<string>
+        {
+            "Todas",
+            "Alimentos",
+            "Higiene",
+            "Limpeza"
+        };
+
+        picker_categoria.SelectedIndex = 0;
     }
 
     protected async override void OnAppearing()
     {
         try
         {
+            await CarregarLista();
+
             lista.Clear();
 
             List<Produto> tmp = await App.Db.GetAll();
+
+            if (categoriaSelecionada != "Todas")
+            {
+                tmp = tmp.Where(p => p.Categoria == categoriaSelecionada).ToList();
+            }
 
             tmp.ForEach(i => lista.Add(i));
         }
@@ -55,6 +83,11 @@ public partial class ListaProduto : ContentPage
 
             List<Produto> tmp = await App.Db.Search(q);
 
+            if (categoriaSelecionada != "Todas")
+            {
+                tmp = tmp.Where(p => p.Categoria == categoriaSelecionada).ToList();
+            }
+
             tmp.ForEach(i => lista.Add(i));
         }
         catch (Exception ex)
@@ -73,7 +106,7 @@ public partial class ListaProduto : ContentPage
         {
             double soma = lista.Sum(i => i.Total);
 
-            string msg = $"O Total é {soma:C}";
+            string msg = $"O Total Ã© {soma:C}";
 
             DisplayAlert("Total dos Produtos", msg, "OK");
         }
@@ -92,7 +125,7 @@ public partial class ListaProduto : ContentPage
             Produto p = selecionado.BindingContext as Produto;
 
             bool confirm = await DisplayAlert(
-                "Tem Certeza?", $"Remover {p.Descricao}?", "Sim", "Não");
+                "Tem Certeza?", $"Remover {p.Descricao}?", "Sim", "NÃ£o");
 
             if (confirm)
             {
@@ -127,9 +160,16 @@ public partial class ListaProduto : ContentPage
     {
         try
         {
+            await CarregarLista();
+
             lista.Clear();
 
             List<Produto> tmp = await App.Db.GetAll();
+
+            if (categoriaSelecionada != "Todas")
+            {
+                tmp = tmp.Where(p => p.Categoria == categoriaSelecionada).ToList();
+            }
 
             tmp.ForEach(i => lista.Add(i));
         }
@@ -143,4 +183,22 @@ public partial class ListaProduto : ContentPage
         }
     }
 
+    private async void OnCategoriaSelecionada(object sender, EventArgs e)
+    {
+        if (picker_categoria.SelectedItem == null)
+            return;
+
+        categoriaSelecionada = picker_categoria.SelectedItem.ToString();
+
+        lista.Clear();
+
+        List<Produto> tmp = await App.Db.GetAll();
+
+        if (categoriaSelecionada != "Todas")
+        {
+            tmp = tmp.Where(p => p.Categoria == categoriaSelecionada).ToList();
+        }
+
+        tmp.ForEach(i => lista.Add(i));
+    }
 }

@@ -1,4 +1,4 @@
-using MauiAppMinhasCompras.Models;
+﻿using MauiAppMinhasCompras.Models;
 using System.Threading.Tasks;
 
 namespace MauiAppMinhasCompras.Views;
@@ -25,7 +25,7 @@ public partial class NovoProduto : ContentPage
 
 			await App.Db.Insert(p); // CRIANDO O INSERT 
 			await DisplayAlert("Sucesso!", "Registro Inserido", "OK"); // AVISANDO O USUARIO QUE DEU CERTO
-            await Navigation.PopAsync();
+            Application.Current.MainPage = new NavigationPage(new ListaProduto());
 
         }
         catch (Exception ex)
