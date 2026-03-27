@@ -5,6 +5,8 @@
              Title="Minhas Compras">
 
     <ContentPage.ToolbarItems >
+        <!-- 🔽 NOVO BOTÃO -->
+        <ToolbarItem Text="Relatório" Clicked="ToolbarItem_Relatorio"/>
         <ToolbarItem Text="Somar" Clicked="ToolbarItem_Clicked_1"/>
         <ToolbarItem Text="Adicionar" Clicked="ToolbarItem_Clicked"/>
     </ContentPage.ToolbarItems>
@@ -18,13 +20,13 @@
     </ContentPage.Resources>
 
     <StackLayout>
-        <Grid ColumnDefinitions="3*, 1*" Padding="5">
+        <Grid ColumnDefinitions="2*, 1*" Padding="5">
 
             <SearchBar x:Name="txt_search"
                    Placeholder="Pesquisa por Produto"
                    TextChanged="txt_search_TextChanged"
                    Grid.Column="0"
-                       Margin="0,13,0,0" />
+                       Margin="-15,13,0,0" />
 
             <StackLayout Grid.Column="1" Padding="5">
 
@@ -46,7 +48,7 @@
                   Refreshing="lst_produtos_Refreshing"
                   ItemSelected="lst_produtos_ItemSelected">
                 <ListView.Header>
-                    <Grid ColumnDefinitions="85,85,85,85,85"
+                    <Grid ColumnDefinitions="2*,1.5*,1.5*,1*,1.5*"
                       BackgroundColor="Gray"
                           Padding="10">
                         <!--<Label Grid.Column="0" Text="ID" Padding="5" FontAttributes="Bold"/>-->
@@ -83,7 +85,7 @@
                             <ViewCell.ContextActions>
                                 <MenuItem Text="Remover" Clicked="MenuItem_Clicked"/>
                             </ViewCell.ContextActions>
-                            <Grid ColumnDefinitions="85, 85,85,85,85" Padding="5" Margin="5">
+                            <Grid ColumnDefinitions="2*,1.5*,1.5*,1*,1.5*" Padding="5" Margin="5">
                                 <!--<Label Grid.Column="0" Text="{Binding Id}" Padding="5"/>-->
                                 <Label Grid.Column="0" 
                                        Text="{Binding Descricao}" 

@@ -1,4 +1,5 @@
 ﻿using MauiAppMinhasCompras.Models;
+using MauiAppMinhasCompras.Views;
 using SQLite;
 
 namespace MauiAppMinhasCompras.Helpers
@@ -42,5 +43,26 @@ namespace MauiAppMinhasCompras.Helpers
             return _conn.QueryAsync<Produto>(sql) ;
         }
 
+
+        // 🔽 NOVO MÉTODO - relatório por categoria
+        public async Task<List<Models.RelatorioCategoria>> GetTotalPorCategoria()
+        {
+            try
+            {
+                string sql = @"
+            SELECT 
+                Categoria,
+                SUM(Preco * Quantidade) AS Total
+            FROM Produto
+            GROUP BY Categoria
+        ";
+
+                return await _conn.QueryAsync<Models.RelatorioCategoria>(sql);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

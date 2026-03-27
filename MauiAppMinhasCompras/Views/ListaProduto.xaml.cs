@@ -1,5 +1,6 @@
 ﻿using MauiAppMinhasCompras.Models;
 using System.Collections.ObjectModel;
+using MauiAppMinhasCompras.Views;
 using System.Threading.Tasks;
 
 namespace MauiAppMinhasCompras.Views;
@@ -19,6 +20,8 @@ public partial class ListaProduto : ContentPage
         tmp.ForEach(i => lista.Add(i));
     }
 
+
+
     public ListaProduto()
     {
         InitializeComponent();
@@ -35,6 +38,8 @@ public partial class ListaProduto : ContentPage
 
         picker_categoria.SelectedIndex = 0;
     }
+
+    
 
     protected async override void OnAppearing()
     {
@@ -200,5 +205,18 @@ public partial class ListaProduto : ContentPage
         }
 
         tmp.ForEach(i => lista.Add(i));
+    }
+
+    // 🔽 NOVO MÉTODO - abrir tela de relatório
+    private async void ToolbarItem_Relatorio(object sender, EventArgs e)
+    {
+        try
+        {
+            await Navigation.PushAsync(new RelatorioCategoria());
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Erro", ex.Message, "OK");
+        }
     }
 }
